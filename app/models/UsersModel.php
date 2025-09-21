@@ -7,37 +7,35 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
  * Automatically generated via CLI.
  */
 class UsersModel extends Model {
-    protected $table = 'info'; //yung info is name ng table mo sa database mo
+    protected $table = 'info'; // pangalan ng table mo
     protected $primary_key = 'id';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    public function page($q = '', $limit = 10, $page = 1) {
+        $offset = ($page - 1) * $limit;
 
-    public function page($q = '', $records_per_page = null, $page = null) {
- 
-            if (is_null($page)) {
-                return $this->db->table('info')->get_all();
-            } else {
-                $query = $this->db->table('info');
-
-                // Build LIKE conditions
-                $query->like('id', '%'.$q.'%')
-                    ->or_like('username', '%'.$q.'%')
-                    ->or_like('email', '%'.$q.'%');
-                    
-                // Clone before pagination
-                $countQuery = clone $query;
-
-                $data['total_rows'] = $countQuery->select_count('*', 'count')
-                                                ->get()['count'];
-
-                $data['records'] = $query->pagination($records_per_page, $page)
-                                        ->get_all();
-
-                return $data;
-            }
+        // kung may search query
+        if (!empty($q)) {
+            $this->db->like('id', $q);
+            $this->db->or_like('username', $q);
+            $this->db->or_like('email', $q);
         }
 
+        // kunin lahat ng records para malaman total
+        $query_all = $this->db->get($this->table);
+        $total_rows = count($query_all);
+
+        // kunin records with limit + offset
+        if (!empty($q)) {
+            $this->db->like('id', $q);
+            $this->db->or_like('username', $q);
+            $this->db->or_like('email', $q);
+        }
+        $this->db->limit($limit, $offset);
+        $records = $this->db->get($this->table);
+
+        return [
+            'records' => $records,
+            'total_rows' => $total_rows
+        ];
+    }
 }

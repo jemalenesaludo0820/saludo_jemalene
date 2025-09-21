@@ -6,54 +6,41 @@
   <title>Index</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-pink-50 text-gray-800 text-center min-h-screen p-6">
-
-  <h1 class="text-3xl font-bold text-pink-700 mb-6">Students Info</h1>
-
-   <!-- Create Record Button -->
-  <div class="mb-6">
-    <a href="<?=site_url('users/create');?>"
-       class="inline-block bg-pink-500 text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:bg-pink-600 hover:shadow-lg transition duration-300">
-      Create  New Record
-    </a>
-  </div>
-
-  <div class="overflow-x-auto">
-    <table class="w-4/5 mx-auto border-4 border-pink-300 rounded-lg shadow-lg">
-      <thead>
-        <tr class="bg-pink-400 text-white uppercase tracking-wider">
-          <th class="px-4 py-3 border border-pink-300">ID</th>
-          <th class="px-4 py-3 border border-pink-300">Username</th>
-          <th class="px-4 py-3 border border-pink-300">Email</th>
-          <th class="px-4 py-3 border border-pink-300">Action</th>
+<body>
+    <h1>Students Info</h1>
+    <form action="<?=site_url('users');?>" method="get" class="col-sm-4 float-end d-flex search-form" class="search-form">
+		<?php
+		$q = '';
+		if(isset($_GET['q'])) {
+			$q = $_GET['q'];
+		}
+		?>
+        <input class="form-control me-2" name="q" type="text" placeholder="Search" value="<?=html_escape($q);?>">
+        <button type="submit" class="btn btn-primary" type="button">Search</button>	
+	</form>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Action</th>
         </tr>
-      </thead>
-      <tbody>
-        <?php foreach(html_escape($users) as $user): ?>
-          <tr class="odd:bg-pink-100 even:bg-pink-50 hover:bg-pink-200 transition">
-            <td class="px-4 py-3 border border-pink-300"><?= $user['id']; ?></td>
-            <td class="px-4 py-3 border border-pink-300"><?= $user['username']; ?></td>
-            <td class="px-4 py-3 border border-pink-300"><?= $user['email']; ?></td>
-            <td class="px-4 py-3 border border-pink-300 space-x-2">
-
-              <!-- Update Button (lighter pink) -->
-              <a href="<?=site_url('users/update/'.$user['id'])?>"
-                 class="inline-block bg-pink-400 text-white px-4 py-2 rounded-lg shadow-md hover:bg-pink-500 hover:shadow-lg transition duration-300">
-                Update
-              </a>
-
-              <!-- Delete Button (darker pink) -->
-              <a href="<?=site_url('users/delete/'.$user['id'])?>"
-                 class="inline-block bg-pink-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-pink-700 hover:shadow-lg transition duration-300">
-                Delete
-              </a>
-
+        <?php foreach (html_escape($user) as $users): ?>
+        <tr>
+            <td><?=$users['id']; ?></td>
+            <td><?=$users['username']; ?></td>
+            <td><?=$users['email']; ?></td>
+            <td>
+                <a href="<?=site_url('/users/update/'.$users['id']);?>">Update</a>
+                <a href="<?=site_url('/users/delete/'.$users['id']);?>">Delete</a>
             </td>
-          </tr>
+        </tr>
         <?php endforeach; ?>
-      </tbody>
     </table>
-  </div>
-
+    <?php
+	echo $page;?>
+    <div class="button-container">
+        <a href="<?=site_url('users/create'); ?>" class="btn-create">+ Create New User</a>
+    </div>
 </body>
 </html>
