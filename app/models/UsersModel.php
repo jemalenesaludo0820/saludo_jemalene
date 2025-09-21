@@ -18,9 +18,9 @@ class UsersModel extends Model {
     public function page($q = '', $records_per_page = null, $page = null) {
  
             if (is_null($page)) {
-                return $this->db->table('users')->get_all();
+                return $this->db->table('info')->get_all();
             } else {
-                $query = $this->db->table('users');
+                $query = $this->db->table('info');
 
                 // Build LIKE conditions
                 $query->like('id', '%'.$q.'%')
