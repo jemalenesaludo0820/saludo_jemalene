@@ -8,13 +8,13 @@
 </head>
 <body class="bg-pink-50 text-gray-800 text-center min-h-screen p-6">
 
-  <h1 class="text-3xl font-bold text-pink-700 mb-6">Welcome to Index View</h1>
+  <h1 class="text-3xl font-bold text-pink-700 mb-6">Students Info</h1>
 
    <!-- Create Record Button -->
   <div class="mb-6">
     <a href="<?=site_url('users/create');?>"
        class="inline-block bg-pink-500 text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:bg-pink-600 hover:shadow-lg transition duration-300">
-      Create Record
+      Create  New Record
     </a>
   </div>
 
