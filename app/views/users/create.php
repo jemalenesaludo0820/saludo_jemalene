@@ -8,7 +8,21 @@
 </head>
 <body class="bg-gradient-to-br from-pink-100 via-pink-50 to-white flex items-center justify-center min-h-screen">
   
-  <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-pink-100">
+  <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-pink-100 relative">
+    
+    <!-- Back Icon -->
+    <a href="<?=site_url('users');?>"
+       class="absolute top-4 left-4 text-pink-500 hover:text-pink-700 transition">
+      <svg xmlns="http://www.w3.org/2000/svg" 
+           class="h-6 w-6" 
+           fill="none" 
+           viewBox="0 0 24 24" 
+           stroke="currentColor" 
+           stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </a>
+
     <!-- Title -->
     <h1 class="text-3xl font-extrabold text-pink-600 text-center mb-8">Create Your Account</h1>
 
