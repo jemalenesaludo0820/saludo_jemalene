@@ -10,14 +10,30 @@
 
   <h1 class="text-3xl font-bold text-pink-700 mb-6">Students Info</h1>
 
-   <!-- Create Record Button -->
-  <div class="mb-6">
+  <div class="flex justify-between items-center w-4/5 mx-auto mb-6">
+    
+    <!-- Create Record Button -->
     <a href="<?=site_url('users/create');?>"
-       class="inline-block bg-pink-500 text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:bg-pink-600 hover:shadow-lg transition duration-300">
-      Create New Record
+       class="bg-pink-500 text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:bg-pink-600 hover:shadow-lg transition duration-300">
+      + Create New Record
     </a>
+
+    <!-- Search Form -->
+    <form action="<?=site_url('users');?>" method="get" class="flex space-x-2">
+      <?php $q = isset($_GET['q']) ? $_GET['q'] : ''; ?>
+      <input type="text" 
+             name="q" 
+             placeholder="Search..." 
+             value="<?=html_escape($q);?>" 
+             class="px-4 py-2 rounded-lg border border-pink-300 focus:ring-2 focus:ring-pink-400 focus:outline-none w-64">
+      <button type="submit" 
+              class="bg-pink-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-pink-600 transition">
+        Search
+      </button>
+    </form>
   </div>
 
+  <!-- Table -->
   <div class="overflow-x-auto">
     <table class="w-4/5 mx-auto border-4 border-pink-300 rounded-lg shadow-lg">
       <thead>
@@ -36,13 +52,13 @@
             <td class="px-4 py-3 border border-pink-300"><?= $user['email']; ?></td>
             <td class="px-4 py-3 border border-pink-300 space-x-2">
 
-              <!-- Update Button (lighter pink) -->
+              <!-- Update Button -->
               <a href="<?=site_url('users/update/'.$user['id'])?>"
                  class="inline-block bg-pink-400 text-white px-4 py-2 rounded-lg shadow-md hover:bg-pink-500 hover:shadow-lg transition duration-300">
                 Update
               </a>
 
-              <!-- Delete Button (darker pink) -->
+              <!-- Delete Button -->
               <a href="<?=site_url('users/delete/'.$user['id'])?>"
                  class="inline-block bg-pink-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-pink-700 hover:shadow-lg transition duration-300">
                 Delete
@@ -55,5 +71,11 @@
     </table>
   </div>
 
+  <!-- Pagination -->
+  <div class="mt-6">
+    <?= $page ?>
+  </div>
+
 </body>
+
 </html>
