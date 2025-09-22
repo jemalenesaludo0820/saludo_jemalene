@@ -40,6 +40,15 @@ class UsersController extends Controller {
             'page_delimiter' => '&page='
         ]);
         $this->pagination->set_theme('tailwind');
+        $this->pagination->set_theme([
+    'container_open'  => '<div class="flex justify-center mt-4 space-x-2">',
+    'container_close' => '</div>',
+    'page_open'       => '<span class="px-3 py-1 rounded bg-gray-200 hover:bg-pink-400">',
+    'page_close'      => '</span>',
+    'cur_page_open'   => '<span class="px-3 py-1 rounded bg-pink-500 text-white">',
+    'cur_page_close'  => '</span>'
+]);
+
         $this->pagination->initialize($total_rows, $records_per_page, $page, 'users?q='.$q);
         $data['page'] = $this->pagination->paginate();
 
