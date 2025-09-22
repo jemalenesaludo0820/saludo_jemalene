@@ -10,11 +10,10 @@
   
   <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-pink-100 relative">
     
-    <!-- Back Icon -->
-   <div class="mb-6">
+    <div class="mb-6">
       <a href="<?=site_url('users');?>"
          class="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-700 rounded-lg shadow hover:bg-gray-300 transition">
-        ← Back
+        Back
       </a>
     </div>
 
