@@ -18,20 +18,31 @@
       + Create New Record
     </a>
 
-    <!-- Search Form -->
-    <form action="<?=site_url('users');?>" method="get" class="flex space-x-2">
-      <?php $q = isset($_GET['q']) ? $_GET['q'] : ''; ?>
-      <input type="text" 
-             name="q" 
-             placeholder="Search..." 
-             value="<?=html_escape($q);?>" 
-             class="px-4 py-2 rounded-lg border border-pink-300 focus:ring-2 focus:ring-pink-400 focus:outline-none w-64">
-      <button type="submit" 
-              class="bg-pink-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-pink-600 transition">
-        Search
-      </button>
-    </form>
+   <!-- Search Form -->
+<form action="<?=site_url('users');?>" method="get" class="flex space-x-2 items-center">
+  <?php $q = isset($_GET['q']) ? $_GET['q'] : ''; ?>
+  <div class="relative">
+    <input type="text" 
+           id="searchInput"
+           name="q" 
+           placeholder="Search..." 
+           value="<?=html_escape($q);?>" 
+           class="px-4 py-2 rounded-lg border border-pink-300 focus:ring-2 focus:ring-pink-400 focus:outline-none w-64 pr-8">
+    
+    <!-- X Button -->
+    <button type="button" 
+            onclick="document.getElementById('searchInput').value=''; window.location.href='<?=site_url('users');?>';"
+            class="absolute right-2 top-1/2 transform -translate-y-1/2 text-pink-500 hover:text-pink-700">
+      ✕
+    </button>
   </div>
+  
+  <button type="submit" 
+          class="bg-pink-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-pink-600 transition">
+    Search
+  </button>
+</form>
+
 
   <!-- Table -->
   <div class="overflow-x-auto">
