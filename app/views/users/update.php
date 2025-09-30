@@ -1,52 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Update</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Update User</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #ffe6f0, #ffbfd8, #ffdee9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .glass-container {
+      width: 100%;
+      max-width: 480px;
+      padding: 40px;
+      background: rgba(255, 240, 245, 0.75);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      box-shadow: 0 12px 28px rgba(214, 51, 132, 0.25);
+      border: 1px solid rgba(255, 182, 193, 0.5);
+      text-align: center;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .glass-container h1 {
+      font-size: 2em;
+      font-weight: 600;
+      color: #d63384;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+      text-align: left;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #ffcce0;
+      border-radius: 12px;
+      font-size: 14px;
+      background: #fff0f7;
+      color: #d81b60;
+      transition: 0.3s ease;
+      box-sizing: border-box;
+      box-shadow: inset 0 2px 6px rgba(255, 182, 193, 0.25);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #d63384;
+      box-shadow: 0 0 8px rgba(214, 51, 132, 0.4);
+      outline: none;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 1.1em;
+      color: #d63384;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ff4d94, #d63384);
+      color: #fff;
+      font-size: 1.1em;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(214, 51, 132, 0.35);
+    }
+
+    .btn-return {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 22px;
+      background: #ff80b5;
+      color: #fff;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-return:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(214, 51, 132, 0.3);
+      background: #d63384;
+    }
+  </style>
 </head>
-<body class="bg-pink-50 flex items-center justify-center min-h-screen">
-  
-  <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
-    <h1 class="text-2xl font-bold text-pink-600 text-center mb-6">Update Record</h1>
-
-    <form action="<?=site_url('users/update/'.segment(4));?>" method="POST" class="space-y-4">
-      <!-- Username -->
-      <div>
-        <label for="username" class="block text-pink-700 font-medium mb-1">Username</label>
-        <input 
-        type="text" 
-        id="username" 
-        name="username"
-        value ="<?= html_escape($user['username']); ?>"
-        required
-        class="w-full px-4 py-2 border border-pink-300 rounded-lg focus:ring-2 focus:ring-pink-400 focus:outline-none">
+<body>
+  <div class="glass-container">
+    <h1>Update User</h1>
+    <form action="<?=site_url('users/update/'.$user['id'])?>" method="POST">
+      <div class="form-group">
+        <input type="text" name="username" value="<?=html_escape($user['username']);?>" placeholder="Username" required>
+      </div>
+      <div class="form-group">
+        <input type="email" name="email" value="<?=html_escape($user['email']);?>" placeholder="Email" required>
       </div>
 
-      <!-- Email -->
-      <div>
-        <label for="email" class="block text-pink-700 font-medium mb-1">Email Address</label>
-        <input 
-        type="email" 
-        id="email" 
-        name="email"         
-        value = "<?= html_escape($user['email']); ?>"
-        required
+      <?php if(!empty($logged_in_user) && $logged_in_user['role'] === 'admin'): ?>
+        <div class="form-group">
+          <select name="role" required>
+            <option value="user" <?= $user['role'] === 'user' ? 'selected' : ''; ?>>User</option>
+            <option value="admin" <?= $user['role'] === 'admin' ? 'selected' : ''; ?>>Admin</option>
+          </select>
+        </div>
 
-          class="w-full px-4 py-2 border border-pink-300 rounded-lg focus:ring-2 focus:ring-pink-400 focus:outline-none">
-      </div>
+        <div class="form-group">
+          <input type="password" placeholder="New Password (leave blank if unchanged)" 
+                name="password" id="password">
+          <i class="fa-solid fa-eye toggle-password" id="togglePassword"></i>
+        </div>
+      <?php endif; ?>
 
-     
-
-      <!-- Sign Up Button -->
-      <button type="submit"
-        class="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
-        Save
-      </button>
+      <button type="submit" class="btn-submit">Update User</button>
     </form>
+    <a href="<?=site_url('/users');?>" class="btn-return">Cancel</a>
+  </div>
 
-  
+  <script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
 
+    if (togglePassword) {
+      togglePassword.addEventListener('click', function () {
+        const type = password.type === 'password' ? 'text' : 'password';
+        password.type = type;
+
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
+      });
+    }
+  </script>
 </body>
 </html>

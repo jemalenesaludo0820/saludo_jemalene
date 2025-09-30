@@ -43,7 +43,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 |
 */
 
-// Registration is the default page
+/// Registration is the default page
 $router->match('/', 'UsersController::register', ['GET','POST']);
 
 // Auth routes
@@ -59,4 +59,3 @@ $router->get('/users/dashboard', 'UsersController::dashboard');
 $router->match('/users/create', 'UsersController::create', ['GET', 'POST']);
 $router->match('/users/update/{id}', 'UsersController::update', ['GET', 'POST']);
 $router->get('/users/delete/{id}', 'UsersController::delete');
-

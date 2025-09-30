@@ -7,7 +7,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
  * Automatically generated via CLI.
  */
 class UsersModel extends Model {
-    protected $table = 'info'; //yung info is name ng table mo sa database mo
+    protected $table = 'info';
     protected $primary_key = 'id';
 
     public function __construct()
@@ -15,14 +15,14 @@ class UsersModel extends Model {
         parent::__construct();
     }
 
-  public function get_user_by_id($id)
+     public function get_user_by_id($id)
     {
         return $this->db->table($this->table)
                         ->where('id', $id)
                         ->get();
     }
 
-     public function get_user_by_username($username)
+    public function get_user_by_username($username)
     {
         return $this->db->table($this->table)
                         ->where('username', $username)
@@ -43,7 +43,7 @@ class UsersModel extends Model {
         return $this->db->table($this->table)->get_all();
     }
 
-     public function get_logged_in_user()
+    public function get_logged_in_user()
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -70,6 +70,7 @@ class UsersModel extends Model {
                     ->or_like('username', '%'.$q.'%')
                     ->or_like('email', '%'.$q.'%')
                     ->or_like('role', '%'.$q.'%');
+                    
                 // Clone before pagination
                 $countQuery = clone $query;
 
