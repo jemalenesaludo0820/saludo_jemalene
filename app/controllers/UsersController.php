@@ -14,7 +14,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
         }
         public function index()
 {
-    $this->call->model('Usersmodel');
+    $this->call->model('UsersModel');
 
     // Check kung may naka-login
     if (!isset($_SESSION['user'])) {
@@ -40,7 +40,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
         $records_per_page = 5;
 
     // Get paginated users
-    $users = $this->Usersmodel->page($q, $records_per_page, $page);
+    $users = $this->UsersModel->page($q, $records_per_page, $page);
 
     $data['users'] = $users['records'];   // ✅ only rows
     $total_rows = $users['total_rows'];
@@ -82,7 +82,7 @@ public function create()
         }
 
         // ✅ Check if username already exists
-        $existing_user = $this->Usersmodel->get_user_by_username($username);
+        $existing_user = $this->UsersModel->get_user_by_username($username);
         if (!empty($existing_user)) {
             $this->call->view('users/create', [
                 'error'    => 'Username already exists. Please choose another.',
@@ -101,7 +101,7 @@ public function create()
             'created_at' => date('Y-m-d H:i:s')
         ];
 
-        if ($this->Usersmodel->insert($data)) {
+        if ($this->UsersModel->insert($data)) {
             redirect('/users'); // go back to users list
         } else {
             $this->call->view('users/create', [
@@ -120,7 +120,7 @@ public function create()
 
 public function update($id)
 {
-    $this->call->model('Usersmodel');
+    $this->call->model('UsersModel');
 
     // Get logged-in user from session
     if (session_status() === PHP_SESSION_NONE) {
@@ -130,7 +130,7 @@ public function update($id)
     $logged_in_user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
 
     // Fetch the user to be edited
-    $user = $this->Usersmodel->get_user_by_id($id);
+    $user = $this->UsersModel->get_user_by_id($id);
     if (!$user) {
         echo "User not found.";
         return;
@@ -161,7 +161,7 @@ public function update($id)
             ];
         }
 
-        if ($this->Usersmodel->update($id, $data)) {
+        if ($this->UsersModel->update($id, $data)) {
             redirect('/users');
         } else {
             echo 'Failed to update user.';
@@ -177,8 +177,8 @@ public function update($id)
 
     public function delete($id)
     {
-        $this->call->model('Usersmodel');
-        if($this->Usersmodel->delete($id)){
+        $this->call->model('UsersModel');
+        if($this->UsersModel->delete($id)){
             redirect('/users');
         } else {
             echo 'Failed to delete user.';
@@ -187,7 +187,7 @@ public function update($id)
 
 public function register()
 {
-    $this->call->model('Usersmodel'); // load model
+    $this->call->model('UsersModel'); // load model
 
     if ($this->io->method() == 'post') {
         $username          = trim($this->io->post('username'));
@@ -208,7 +208,7 @@ public function register()
         }
 
         // ✅ Check if username already exists
-        if ($this->Usersmodel->get_user_by_username($username)) {
+        if ($this->UsersModel->get_user_by_username($username)) {
             $error = "Username already taken!";
             $this->call->view('/auth/register', [
                 'error'    => $error,
@@ -230,7 +230,7 @@ public function register()
             'created_at' => date('Y-m-d H:i:s')
         ];
 
-        if ($this->Usersmodel->insert($data)) {
+        if ($this->UsersModel->insert($data)) {
             // success → go to login
             redirect('/auth/login');
         } else {
@@ -259,8 +259,8 @@ public function register()
                 $username = $this->io->post('username');
                 $password = $this->io->post('password');
 
-                $this->call->model('Usersmodel');
-                $user = $this->Usersmodel->get_user_by_username($username);
+                $this->call->model('UsersModel');
+                $user = $this->UsersModel->get_user_by_username($username);
 
                 if ($user) {
                     if ($this->auth->login($username, $password)) {
@@ -292,10 +292,10 @@ public function register()
 
     public function dashboard()
     {
-        $this->call->model('Usersmodel');
-        $data['user'] = $this->Usersmodel->get_all_users(); // fetch all users
+        $this->call->model('UsersModel');
+        $data['user'] = $this->UsersModel->get_all_users(); // fetch all users
 
-        $this->call->model('Usersmodel');
+        $this->call->model('UsersModel');
 
         $page = 1;
         if(isset($_GET['page']) && ! empty($_GET['page'])) {
@@ -309,7 +309,7 @@ public function register()
 
         $records_per_page = 10;
 
-        $user = $this->Usersmodel->page($q, $records_per_page, $page);
+        $user = $this->UsersModel->page($q, $records_per_page, $page);
         $data['user'] = $user['records'];
         $total_rows = $user['total_rows'];
 
